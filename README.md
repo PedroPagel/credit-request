@@ -205,3 +205,87 @@ Tracks credit applications, linking them to users and their associated risk anal
 
 ### Stored Procedure
 The `sp_GetCreditLimitByIncome` stored procedure calculates a credit limit based on a user's monthly income. 
+
+---
+
+## Mock Digital Mobile Key API
+
+This section describes the **Mock Digital Mobile Key API**, which serves as a mock service to simulate a Digital Mobile Key (DMK) provider for retrieving user information by **NIF**.
+
+### Overview
+
+The Mock Digital Mobile Key API is designed for testing purposes and facilitates the creation of users in the application by simulating external user data retrieval.
+
+#### Key Features
+- Retrieve user information based on a unique identifier (NIF).
+- Pre-configured users for quick integration.
+- Easily extendable for adding new mock users.
+
+### Endpoints
+
+#### **Get User Information by NIF**
+- **Endpoint:** `GET /api/DigitalMobileKey/{nif}`
+- **Parameters:** 
+  - `nif` (string): Unique identifier (NIF) of the user.
+
+#### Responses
+- **200 OK:** Returns user details.
+  ```json
+  {
+      "fullName": "João Silva",
+      "email": "joao.silva@example.com",
+      "phoneNumber": "912345678",
+      "nif": "318646883"
+  }
+  ```
+- **404 Not Found:** If the NIF is not found.
+  ```json
+  {
+      "message": "NIF not found"
+  }
+  ```
+
+### Example Usage
+
+- **Request:** `GET /api/DigitalMobileKey/318646883`
+  **Response:**
+  ```json
+  {
+      "fullName": "João Silva",
+      "email": "joao.silva@example.com",
+      "phoneNumber": "912345678",
+      "nif": "318646883"
+  }
+  ```
+
+- **Request:** `GET /api/DigitalMobileKey/000000000`
+  **Response:**
+  ```json
+  {
+      "message": "NIF not found"
+  }
+  ```
+
+### Adding New Users
+
+To add more users, modify the `_userValues` dictionary in the `DigitalMobileKeyController` constructor.
+
+Example:
+```csharp
+_userValues.Add("123456789", new User()
+{
+    FullName = "Maria Pereira",
+    Email = "maria.pereira@example.com",
+    PhoneNumber = "987654321",
+    NIF = "123456789"
+});
+```
+Now, you can retrieve Maria's details using:
+```
+GET /api/DigitalMobileKey/123456789
+```
+
+### Notes
+
+- This API does not persist data and is not connected to a database.
+- It is intended for development and testing purposes only.
