@@ -1,0 +1,6 @@
+@MockDigitalMobileKey.Api_HostAddress = http://localhost:5137
+
+GET {{MockDigitalMobileKey.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
